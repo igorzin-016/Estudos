@@ -22,14 +22,13 @@ public class CompartilhadoController {
         return novaMensagem;
     }
 
-    // NOVO: Rota para apagar a mensagem pelo ID
     @DeleteMapping("/{id}")
     public String deletarMensagem(@PathVariable Long id) {
         chatTurma.removeIf(msg -> msg.id != null && msg.id.equals(id));
         return "Apagado com sucesso!";
     }
 
-    // NOVO: Adicionamos o campo 'id'
+    // A estrutura nova que o chat precisa para funcionar:
     static class Mensagem {
         public Long id;
         public String autor;
