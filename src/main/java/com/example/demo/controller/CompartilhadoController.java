@@ -9,7 +9,6 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class CompartilhadoController {
 
-    // O nosso banco de dados temporário agora guarda Objetos do tipo Mensagem
     private List<Mensagem> chatTurma = new ArrayList<>();
 
     @GetMapping
@@ -20,11 +19,19 @@ public class CompartilhadoController {
     @PostMapping
     public Mensagem enviarMensagem(@RequestBody Mensagem novaMensagem) {
         chatTurma.add(novaMensagem);
-        return novaMensagem; // Retorna a mensagem salva
+        return novaMensagem;
     }
 
-    // A estrutura do nosso Objeto JSON
+    // NOVO: Rota para apagar a mensagem pelo ID
+    @DeleteMapping("/{id}")
+    public String deletarMensagem(@PathVariable Long id) {
+        chatTurma.removeIf(msg -> msg.id != null && msg.id.equals(id));
+        return "Apagado com sucesso!";
+    }
+
+    // NOVO: Adicionamos o campo 'id'
     static class Mensagem {
+        public Long id;
         public String autor;
         public String texto;
     }
