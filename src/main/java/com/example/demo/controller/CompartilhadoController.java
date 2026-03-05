@@ -9,22 +9,23 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class CompartilhadoController {
 
-    // Essa é a nossa "memória" temporária no servidor
-    private List<String> mural = new ArrayList<>(List.of(
-        "👋 Bem-vindo ao mural da turma!",
-        "📚 A aula de Java IO já está disponível."
-    ));
+    // O nosso banco de dados temporário agora guarda Objetos do tipo Mensagem
+    private List<Mensagem> chatTurma = new ArrayList<>();
 
-    // O GET é o que o seu site já está usando para BUSCAR os dados
     @GetMapping
-    public List<String> buscarConteudos() {
-        return mural;
+    public List<Mensagem> buscarChat() {
+        return chatTurma;
     }
 
-    // O POST é o que vamos usar para ENVIAR novos dados do site pro servidor
     @PostMapping
-    public String adicionarConteudo(@RequestBody String novoConteudo) {
-        mural.add(novoConteudo);
-        return "Salvo com sucesso!";
+    public Mensagem enviarMensagem(@RequestBody Mensagem novaMensagem) {
+        chatTurma.add(novaMensagem);
+        return novaMensagem; // Retorna a mensagem salva
+    }
+
+    // A estrutura do nosso Objeto JSON
+    static class Mensagem {
+        public String autor;
+        public String texto;
     }
 }
